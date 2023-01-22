@@ -37,9 +37,9 @@ let questions = [
 ];
 
 let rightQuestions = 0;
-
 let currentQuestion = 0;
-
+let SOUND_SUCCESS = new Audio('sounds/success.mp3');
+let SOUND_WRONG = new Audio('sounds/wrong.mp3');
 
 function init() {
     document.getElementById('all-questions').innerHTML = questions.length;
@@ -83,11 +83,13 @@ function answer(selection) {
     if(selectedQuestionNumber == question['right_answer']) {  //Richtige Frage beantwortet.
         console.log('Richtige Antwort');
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        SOUND_SUCCESS.play();
         rightQuestions++;
     }  else {
             console.log('Falsche Antwort');
             document.getElementById(selection).parentNode.classList.add('bg-danger');
             document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+            SOUND_WRONG.play();
         }
         document.getElementById('next-button').disabled = false;
     
@@ -113,4 +115,16 @@ function resetAnswerButtons() {
         document.getElementById('answer_3').parentNode.classList.remove('bg-success');
         document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
         document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+}
+
+
+function restartGame() {
+    document.getElementById('header-image').src = 'img/pencil.jpg';
+    document.getElementById('questionBody').style = ''; // questionBody wieder anzeigen
+    document.getElementById('endScreen').style = 'display: none'; // Endscreen ausblendne
+
+
+    rightQuestions = 0;
+    currentQuestion = 0;
+    init();
 }
